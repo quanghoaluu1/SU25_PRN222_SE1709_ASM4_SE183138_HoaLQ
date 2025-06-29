@@ -1,0 +1,107 @@
+@model IEnumerable<SchoolMedical.Repositories.HoaLQ.Models.HealthProfilesHoaLq>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hearing)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BloodPressure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Allergy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChronicDisease)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MedicalHistory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentMedical)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BloodType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sex)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hearing)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BloodPressure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Allergy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChronicDisease)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicalHistory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentMedical)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BloodType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.StudentsHoaLqid)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.HealthProfileHoaLqid">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.HealthProfileHoaLqid">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.HealthProfileHoaLqid">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
