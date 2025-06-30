@@ -36,8 +36,8 @@ public partial class HealthProfilesHoaLq
     public string BloodType { get; set; }
 
     public bool Sex { get; set; }
-
-    public DateTime? DateOfBirth { get; set; }
+    [DataType(DataType.Date)]
+    public DateOnly? DateOfBirth { get; set; }
     
     [JsonIgnore]
     public virtual StudentsHoaLq Student { get; set; }

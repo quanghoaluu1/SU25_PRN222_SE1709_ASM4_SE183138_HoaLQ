@@ -52,8 +52,25 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
             var studentsQueryable = (await _serviceProviders.StudentHoaLqService.GetAllAsync()).AsQueryable();
             var students = studentsQueryable.Select(s => new
             {
-                FullName = string.Format("")
-            })
+                Id = s.StudentsHoaLqid,
+                StudentInfo = $"{(s.Class.ClassName)} - {s.StudentFullName} - {s.StudentCode}"
+            });
+            ViewData["StudentList"] = new SelectList(students, "Id", "StudentInfo");
+            
+            var healthProfilesHoaLq = new HealthProfilesHoaLq()
+            {
+                Weight = 0,
+                Height = 0,
+                Sight = 0,
+                Hearing = 0,
+                BloodPressure = 0,
+                Allergy = string.Empty,
+                ChronicDisease = string.Empty,
+                MedicalHistory = string.Empty,
+                CurrentMedical = string.Empty,
+                BloodType = "O+",
+            };
+            return View(healthProfilesHoaLq);
         }
         
         // POST: HealthProfile/Create
@@ -63,14 +80,30 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(HealthProfilesHoaLq healthProfilesHoaLq)
         {
-            if (ModelState.IsValid)
+            try
             {
-               var result = await _serviceProviders.HealthProfilesHoaLqService.CreateAsync(healthProfilesHoaLq);
+                if (ModelState.IsValid)
+                {
+                        await _serviceProviders.HealthProfilesHoaLqService.CreateAsync(healthProfilesHoaLq);
 
-                   return RedirectToAction(nameof(Index));
+                        Console.WriteLine("Create Successfully");
+                        return RedirectToAction(nameof(Index));
+
+                }
+                var studentsQueryable = (await _serviceProviders.StudentHoaLqService.GetAllAsync()).AsQueryable();
+
+                var students = studentsQueryable.Select(s => new
+                {
+                    Id = s.StudentsHoaLqid,
+                    StudentInfo = $"{(s.Class.ClassName)} - {s.StudentFullName} - {s.StudentCode}"
+                });
+                ViewData["StudentList"] = new SelectList(students, "Id", "StudentInfo");
+                
             }
-
-            ViewData["StudentId"] = new SelectList(_context.StudentsHoaLqs, "StudentsHoaLqid", "StudentsHoaLqid", healthProfilesHoaLq.StudentId);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             return View(healthProfilesHoaLq);
         }
         //
