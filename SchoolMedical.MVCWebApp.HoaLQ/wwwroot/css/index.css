@@ -1,0 +1,64 @@
+.pagination-container {
+    position: sticky;
+    bottom: 0;
+    z-index: 1020;
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+    box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin: 0 -1.5rem -1rem -1.5rem; /* Mở rộng ra sát viền card-body */
+    border-radius: 0 0 calc(0.375rem - 1px) calc(0.375rem - 1px); /* Bo tròn góc dưới */
+}
+
+/* 2. Các nút bấm trong thanh phân trang (ul.pagination) */
+.pagination {
+    border-radius: 0.5rem;
+}
+
+/* 3. Từng nút bấm (a, button bên trong li) */
+.pagination .page-link {
+    transition: all 0.2s ease-in-out;
+    border-radius: 0.375rem;
+    margin: 0 2px;
+    border-color: transparent;
+}
+
+/* 4. Hiệu ứng khi di chuột (HOVER) vào nút (chỉ áp dụng cho nút không bị vô hiệu hóa) */
+.pagination .page-item:not(.disabled):not(.active) .page-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--bs-primary);
+    color: white;
+    border-color: var(--bs-primary);
+}
+
+/* 5. Nút của trang đang được chọn (ACTIVE) */
+.pagination .page-item.active .page-link {
+    box-shadow: 0 2px 6px rgba(var(--bs-primary-rgb), 0.5);
+    transform: translateY(-1px);
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+/* 6. Khi di chuột vào nút đang được chọn (không làm gì cả) */
+.pagination .page-item.active .page-link:hover {
+    transform: translateY(-1px);
+    cursor: default;
+}
+
+/* 7. Nút bị vô hiệu hóa (DISABLED) */
+.pagination .page-item.disabled .page-link {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: transparent;
+}
+.card-body {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 70vh !important;
+}
+.table-responsive {
+    flex-grow: 1 !important;
+}

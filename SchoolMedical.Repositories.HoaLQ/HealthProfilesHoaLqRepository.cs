@@ -22,11 +22,12 @@ namespace SchoolMedical.Repositories.HoaLQ
             _context = context;
         }
         
-        public new async Task< List<HealthProfilesHoaLq>> GetAllAsync()
+        public async Task<PaginatedList<HealthProfilesHoaLq>> GetAllAsync(int pageNumber, int pageSize)
         {
-            return await _context.HealthProfilesHoaLqs
-                .Include(h => h.Student)
-                .ToListAsync() ?? new List<HealthProfilesHoaLq>();
+            var query = _context.HealthProfilesHoaLqs
+                .Include(h => h.Student).AsQueryable();
+            var result = await PaginatedList<HealthProfilesHoaLq>.CreateAsync(query, pageNumber, pageSize);
+            return result;
         }
 
         public new async Task<HealthProfilesHoaLq> GetByIdAsync(int id)
@@ -40,38 +41,39 @@ namespace SchoolMedical.Repositories.HoaLQ
 
         public async Task<PaginatedList<HealthProfilesHoaLq>> SearchAsync(string bloodType, string studentName, int? weight, int? height, bool? sex, int pageNumber, int pageSize)
         {
-            var query = _context.HealthProfilesHoaLqs
-                .Include(p => p.Student)
-                .AsQueryable();
+        var query = _context.HealthProfilesHoaLqs
+            .Include(p => p.Student)
+            .AsQueryable();
+        
+        if (!string.IsNullOrWhiteSpace(bloodType))
+        {
+            query = query.Where(p => p.BloodType.Contains(bloodType));
+        }
+        
+        if (!string.IsNullOrWhiteSpace(studentName))
+        {
+            query = query.Where(p => p.Student.StudentFullName.Contains(studentName));
+        }
+        
+        if (weight.HasValue)
+        {
+            query = query.Where(p => p.Weight == weight.Value);
+        }
+        
+        if (height.HasValue)
+        {
+            query = query.Where(p => p.Height == height.Value);
+        }
+        
+        if (sex.HasValue)
+        {
+            query = query.Where(p => p.Sex == sex.Value);
+        }
+        var totalCount = await query.CountAsync();
+        var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        var result = await PaginatedList<HealthProfilesHoaLq>.CreateAsync(query, pageNumber, pageSize);
 
-            if (!string.IsNullOrWhiteSpace(bloodType))
-            {
-                query = query.Where(p => p.BloodType.Contains(bloodType));
-            }
-
-            if (!string.IsNullOrWhiteSpace(studentName))
-            {
-                query = query.Where(p => p.Student.StudentFullName.Contains(studentName));
-            }
-
-            if (weight.HasValue)
-            {
-                query = query.Where(p => p.Weight == weight.Value);
-            }
-
-            if (height.HasValue)
-            {
-                query = query.Where(p => p.Height == height.Value);
-            }
-    
-            if (sex.HasValue)
-            {
-                query = query.Where(p => p.Sex == sex.Value);
-            }
-            var totalCount = await query.CountAsync();
-            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-
-            return new PaginatedList<HealthProfilesHoaLq>(items, totalCount);
+        return result;
         }
 
         public async Task<List<HealthProfilesHoaLq>> FilterBySexAsync(bool? sex)

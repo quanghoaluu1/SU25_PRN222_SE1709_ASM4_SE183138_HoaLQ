@@ -3,89 +3,126 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<div class="container mt-4">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h4 class="m-0 font-weight-bold text-primary">Edit Health Profile</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3" >
+                            <label asp-for="StudentId" class="form-label font-weight-bold"></label>
+                            <select asp-for="StudentId" class="form-select" asp-items="ViewBag.StudentList" disabled>
+                                <option value="">-- Select Student --</option>
+                            </select>
+                            <span asp-validation-for="StudentId" class="text-danger"></span>
+                        </div>
 
-<h1>Edit</h1>
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label asp-for="DateOfBirth" class="form-label font-weight-bold"></label>
+                                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label asp-for="Sex" class="form-label font-weight-bold"></label>
+                                <div class="p-2 rounded border">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" asp-for="Sex" id="male" value="true" checked>
+                                        <label class="form-check-label" for="male">Nam</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" asp-for="Sex" id="female" value="false">
+                                        <label class="form-check-label" for="female">Nữ</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-<h4>HealthProfilesHoaLq</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="HealthProfileHoaLqid" />
-            <div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
-                <select asp-for="StudentId" class="form-control" asp-items="ViewBag.StudentId"></select>
-                <span asp-validation-for="StudentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Weight" class="control-label"></label>
-                <input asp-for="Weight" class="form-control" />
-                <span asp-validation-for="Weight" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Height" class="control-label"></label>
-                <input asp-for="Height" class="form-control" />
-                <span asp-validation-for="Height" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sight" class="control-label"></label>
-                <input asp-for="Sight" class="form-control" />
-                <span asp-validation-for="Sight" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Hearing" class="control-label"></label>
-                <input asp-for="Hearing" class="form-control" />
-                <span asp-validation-for="Hearing" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BloodPressure" class="control-label"></label>
-                <input asp-for="BloodPressure" class="form-control" />
-                <span asp-validation-for="BloodPressure" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Allergy" class="control-label"></label>
-                <input asp-for="Allergy" class="form-control" />
-                <span asp-validation-for="Allergy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ChronicDisease" class="control-label"></label>
-                <input asp-for="ChronicDisease" class="form-control" />
-                <span asp-validation-for="ChronicDisease" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MedicalHistory" class="control-label"></label>
-                <input asp-for="MedicalHistory" class="form-control" />
-                <span asp-validation-for="MedicalHistory" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CurrentMedical" class="control-label"></label>
-                <input asp-for="CurrentMedical" class="form-control" />
-                <span asp-validation-for="CurrentMedical" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BloodType" class="control-label"></label>
-                <input asp-for="BloodType" class="form-control" />
-                <span asp-validation-for="BloodType" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Sex" /> @Html.DisplayNameFor(model => model.Sex)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                        <div class="row">
+                            <div class="col-sm-4 mb-3">
+                                <label asp-for="Weight" class="form-label font-weight-bold"></label>
+                                <div class="input-group">
+                                    <input asp-for="Weight" class="form-control" placeholder="e.g., 50.5" />
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                                <span asp-validation-for="Weight" class="text-danger"></span>
+                            </div>
+                             <div class="col-sm-4 mb-3">
+                                <label asp-for="Height" class="form-label font-weight-bold"></label>
+                                 <div class="input-group">
+                                    <input asp-for="Height" class="form-control" placeholder="e.g., 160" />
+                                    <span class="input-group-text">cm</span>
+                                 </div>
+                                <span asp-validation-for="Height" class="text-danger"></span>
+                            </div>
+                             <div class="col-sm-4 mb-3">
+                                <label asp-for="BloodType" class="form-label font-weight-bold"></label>
+                                <input asp-for="BloodType" class="form-control" placeholder="e.g., AB+" />
+                                <span asp-validation-for="BloodType" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="BloodPressure" class="form-label font-weight-bold"></label>
+                            <input asp-for="BloodPressure" class="form-control" placeholder="e.g., 120/80 mmHg"/>
+                            <span asp-validation-for="BloodPressure" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label asp-for="Sight" class="form-label font-weight-bold"></label>
+                                <input asp-for="Sight" class="form-control" placeholder="e.g., 10/10" />
+                                <span asp-validation-for="Sight" class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label asp-for="Hearing" class="form-label font-weight-bold"></label>
+                                <input asp-for="Hearing" class="form-control" placeholder="e.g., Normal" />
+                                <span asp-validation-for="Hearing" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="Allergy" class="form-label font-weight-bold"></label>
+                            <textarea asp-for="Allergy" class="form-control" rows="2" placeholder="List any known allergies..."></textarea>
+                            <span asp-validation-for="Allergy" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="ChronicDisease" class="form-label font-weight-bold"></label>
+                            <textarea asp-for="ChronicDisease" class="form-control" rows="2" placeholder="List any chronic diseases..."></textarea>
+                            <span asp-validation-for="ChronicDisease" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="MedicalHistory" class="form-label font-weight-bold"></label>
+                            <textarea asp-for="MedicalHistory" class="form-control" rows="3" placeholder="Describe relevant past medical history..."></textarea>
+                            <span asp-validation-for="MedicalHistory" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="CurrentMedical" class="form-label font-weight-bold"></label>
+                            <textarea asp-for="CurrentMedical" class="form-control" rows="3" placeholder="Describe any current medications or treatments..."></textarea>
+                            <span asp-validation-for="CurrentMedical" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex justify-content-end">
+                    <a asp-action="Index" class="btn btn-outline-secondary me-2">
+                        <i class="bi bi-backspace"></i> Back to List
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-bookmark-check"></i> Edit Profile
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

@@ -4,93 +4,111 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white p-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h3 class="mb-0">Health Profile Details</h3>
+                    <p class="mb-0 lead">Học Sinh: <span class="fw-bold">@Html.DisplayFor(model => model.Student.StudentFullName)</span></p>
+                </div>
+                <i class="fas fa-heartbeat fa-3x"></i>
+            </div>
+        </div>
+        <div class="card-body p-4">
 
-<div>
-    <h4>HealthProfilesHoaLq</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Weight)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Weight)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Height)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Height)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sight)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sight)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Hearing)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Hearing)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BloodPressure)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BloodPressure)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Allergy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Allergy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ChronicDisease)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ChronicDisease)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MedicalHistory)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MedicalHistory)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CurrentMedical)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CurrentMedical)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BloodType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BloodType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sex)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sex)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Student)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Student.StudentsHoaLqid)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.HealthProfileHoaLqid">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+            <h5 class="text-primary fw-bold border-bottom pb-2 mb-3"><i class="fas fa-user-circle me-2"></i>Basic Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <p class="text-muted mb-0">@Html.DisplayNameFor(model => model.DateOfBirth)</p>
+                    <p class="fw-bold">@Model.DateOfBirth.Value.ToString("dd MMMM, yyyy")</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-muted mb-0">@Html.DisplayNameFor(model => model.Sex)</p>
+                    <p class="fw-bold">
+                        @if (Model.Sex)
+                        {
+                            <span class="text-primary"><i class="fas fa-mars me-1"></i>Nam</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger"><i class="fas fa-venus me-1"></i>Nữ</span>
+                        }
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-muted mb-0">@Html.DisplayNameFor(model => model.BloodType)</p>
+                    <p class="fw-bold"><span class="badge bg-danger rounded-pill px-2 py-1">@Html.DisplayFor(model => model.BloodType)</span></p>
+                </div>
+            </div>
+
+            <h5 class="text-primary fw-bold border-bottom pb-2 my-3"><i class="fas fa-ruler-combined me-2"></i>Vitals & Measurements</h5>
+            <div class="row mb-3">
+                <div class="col-md-3 col-6">
+                    <p class="text-muted mb-0">@Html.DisplayNameFor(model => model.Weight)</p>
+                    <p class="fw-bold">@Html.DisplayFor(model => model.Weight) kg</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <p class="text-muted mb-0">@Html.DisplayNameFor(model => model.Height)</p>
+                    <p class="fw-bold">@Html.DisplayFor(model => model.Height) cm</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <p class="text-muted mb-0">@Html.DisplayNameFor(model => model.Sight)</p>
+                    <p class="fw-bold">@Html.DisplayFor(model => model.Sight)</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <p class="text-muted mb-0">@Html.DisplayNameFor(model => model.Hearing)</p>
+                    <p class="fw-bold">@Html.DisplayFor(model => model.Hearing)</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="text-muted mb-0">@Html.DisplayNameFor(model => model.BloodPressure)</p>
+                    <p class="fw-bold">@Html.DisplayFor(model => model.BloodPressure)</p>
+                </div>
+            </div>
+
+            <h5 class="text-primary fw-bold border-bottom pb-2 my-3"><i class="fas fa-notes-medical me-2"></i>Medical Condition</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title text-muted">@Html.DisplayNameFor(model => model.Allergy)</h6>
+                            <p class="card-text">@Html.DisplayFor(model => model.Allergy)</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-6 mb-3">
+                     <div class="card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title text-muted">@Html.DisplayNameFor(model => model.ChronicDisease)</h6>
+                            <p class="card-text">@Html.DisplayFor(model => model.ChronicDisease)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                     <div class="card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title text-muted">@Html.DisplayNameFor(model => model.MedicalHistory)</h6>
+                            <p class="card-text">@Html.DisplayFor(model => model.MedicalHistory)</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-6 mb-3">
+                     <div class="card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title text-muted">@Html.DisplayNameFor(model => model.CurrentMedical)</h6>
+                            <p class="card-text">@Html.DisplayFor(model => model.CurrentMedical)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-light text-end p-3">
+             <a asp-action="Index" class="btn btn-outline-secondary me-2">
+                <i class="fas fa-arrow-left me-1"></i> Back to List
+            </a>
+            <a asp-action="Edit" asp-route-id="@Model?.HealthProfileHoaLqid" class="btn btn-primary">
+                <i class="fas fa-edit me-1"></i> Edit Profile
+            </a>
+        </div>
+    </div>
 </div>

@@ -6,7 +6,7 @@ namespace SchoolMedical.Services.HoaLQ;
 
 public interface IHealthProfilesHoaLqService
 {
-    Task<List<HealthProfilesHoaLq>> GetAllAsync();
+    Task<PaginatedList<HealthProfilesHoaLq>> GetAllAsync(int pageNumber, int pageSize);
     Task<HealthProfilesHoaLq> GetByIdAsync(int id);
     Task<PaginatedList<HealthProfilesHoaLq>> SearchAsync(string bloodType, string studentName, int? weight, int? height, bool? sex, int pageNumber, int pageSize);
     Task<List<HealthProfilesHoaLq>> FilterBySexAsync(bool? sex);
@@ -22,9 +22,9 @@ public class HealthProfilesHoaLqService: IHealthProfilesHoaLqService
         _unitOfWork  ??= new UnitOfWork();
     }
 
-    public async Task<List<HealthProfilesHoaLq>> GetAllAsync()
+    public async Task<PaginatedList<HealthProfilesHoaLq>> GetAllAsync(int pageNumber, int pageSize)
     {
-        return await _unitOfWork.HealthProfilesHoaLqRepository.GetAllAsync();
+        return await _unitOfWork.HealthProfilesHoaLqRepository.GetAllAsync(pageNumber,pageSize);
     }
     
     public async Task<HealthProfilesHoaLq> GetByIdAsync(int id)

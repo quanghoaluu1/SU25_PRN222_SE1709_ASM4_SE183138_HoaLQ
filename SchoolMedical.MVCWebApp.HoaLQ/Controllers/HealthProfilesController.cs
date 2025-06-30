@@ -21,11 +21,11 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         }
 
         // GET: HealthProfile
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-           
-            var healthProfiles = await _serviceProviders.HealthProfilesHoaLqService.GetAllAsync();
-            return View(healthProfiles);
+            var pageSize = 10;
+            var paginatedResult = await _serviceProviders.HealthProfilesHoaLqService.GetAllAsync(pageNumber ?? 1, pageSize);
+            return View(paginatedResult);
         }
 
         // GET: HealthProfile/Details/5
@@ -108,95 +108,108 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         }
         //
         // // GET: HealthProfile/Edit/5
-        // public async Task<IActionResult> Edit(int? id)
-        // {
-        //     if (id == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //
-        //     var healthProfilesHoaLq = await _context.HealthProfilesHoaLqs.FindAsync(id);
-        //     if (healthProfilesHoaLq == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     ViewData["StudentId"] = new SelectList(_context.StudentsHoaLqs, "StudentsHoaLqid", "StudentsHoaLqid", healthProfilesHoaLq.StudentId);
-        //     return View(healthProfilesHoaLq);
-        // }
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var healthProfilesHoaLq = await _serviceProviders.HealthProfilesHoaLqService.GetByIdAsync(id);
+            if (healthProfilesHoaLq is null)
+            {
+                return NotFound();
+            }
+            var studentsQueryable = (await _serviceProviders.StudentHoaLqService.GetAllAsync()).AsQueryable();
+
+            var students = studentsQueryable.Select(s => new
+            {
+                Id = s.StudentsHoaLqid,
+                StudentInfo = $"{(s.Class.ClassName)} - {s.StudentFullName} - {s.StudentCode}"
+            });
+            ViewData["StudentList"] = new SelectList(students, "Id", "StudentInfo");
+            return View(healthProfilesHoaLq);
+        }
         //
         // // POST: HealthProfile/Edit/5
         // // To protect from overposting attacks, enable the specific properties you want to bind to.
         // // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // [HttpPost]
-        // [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> Edit(int id, [Bind("HealthProfileHoaLqid,StudentId,Weight,Height,Sight,Hearing,BloodPressure,Allergy,ChronicDisease,MedicalHistory,CurrentMedical,BloodType,Sex,DateOfBirth")] HealthProfilesHoaLq healthProfilesHoaLq)
-        // {
-        //     if (id != healthProfilesHoaLq.HealthProfileHoaLqid)
-        //     {
-        //         return NotFound();
-        //     }
-        //
-        //     if (ModelState.IsValid)
-        //     {
-        //         try
-        //         {
-        //             _context.Update(healthProfilesHoaLq);
-        //             await _context.SaveChangesAsync();
-        //         }
-        //         catch (DbUpdateConcurrencyException)
-        //         {
-        //             if (!HealthProfilesHoaLqExists(healthProfilesHoaLq.HealthProfileHoaLqid))
-        //             {
-        //                 return NotFound();
-        //             }
-        //             else
-        //             {
-        //                 throw;
-        //             }
-        //         }
-        //         return RedirectToAction(nameof(Index));
-        //     }
-        //     ViewData["StudentId"] = new SelectList(_context.StudentsHoaLqs, "StudentsHoaLqid", "StudentsHoaLqid", healthProfilesHoaLq.StudentId);
-        //     return View(healthProfilesHoaLq);
-        // }
-        //
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, HealthProfilesHoaLq healthProfilesHoaLq)
+        {
+            if (id != healthProfilesHoaLq.HealthProfileHoaLqid)
+            {
+                return NotFound();
+            }
+        
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _serviceProviders.HealthProfilesHoaLqService.UpdateAsync(healthProfilesHoaLq);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!HealthProfilesHoaLqExists(healthProfilesHoaLq.HealthProfileHoaLqid))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            var studentsQueryable = (await _serviceProviders.StudentHoaLqService.GetAllAsync()).AsQueryable();
+
+            var students = studentsQueryable.Select(s => new
+            {
+                Id = s.StudentsHoaLqid,
+                StudentInfo = $"{(s.Class.ClassName)} - {s.StudentFullName} - {s.StudentCode}"
+            });
+            ViewData["StudentList"] = new SelectList(students, "Id", "StudentInfo");
+            return View(healthProfilesHoaLq);
+        }
+        
         // // GET: HealthProfile/Delete/5
-        // public async Task<IActionResult> Delete(int? id)
-        // {
-        //     if (id == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //
-        //     var healthProfilesHoaLq = await _context.HealthProfilesHoaLqs
-        //         .Include(h => h.Student)
-        //         .FirstOrDefaultAsync(m => m.HealthProfileHoaLqid == id);
-        //     if (healthProfilesHoaLq == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //
-        //     return View(healthProfilesHoaLq);
-        // }
-        //
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var healthProfilesHoaLq = await _serviceProviders.HealthProfilesHoaLqService.GetByIdAsync(id);
+            if (healthProfilesHoaLq == null)
+            {
+                return NotFound();
+            }
+        
+            return View(healthProfilesHoaLq);
+        }
+        
         // // POST: HealthProfile/Delete/5
-        // [HttpPost, ActionName("Delete")]
-        // [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> DeleteConfirmed(int id)
-        // {
-        //     var healthProfilesHoaLq = await _context.HealthProfilesHoaLqs.FindAsync(id);
-        //     if (healthProfilesHoaLq != null)
-        //     {
-        //         _context.HealthProfilesHoaLqs.Remove(healthProfilesHoaLq);
-        //     }
-        //
-        //     await _context.SaveChangesAsync();
-        //     return RedirectToAction(nameof(Index));
-        // }
-        //
-        // private bool HealthProfilesHoaLqExists(int id)
-        // {
-        //     return _context.HealthProfilesHoaLqs.Any(e => e.HealthProfileHoaLqid == id);
-        // }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var result = false;
+            var healthProfilesHoaLq = await _serviceProviders.HealthProfilesHoaLqService.GetByIdAsync(id);
+            if (healthProfilesHoaLq != null)
+            {
+               result = await _serviceProviders.HealthProfilesHoaLqService.RemoveAsync(id);
+            }
+            if (!result)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        
+        private bool HealthProfilesHoaLqExists(int id)
+        {
+            return _serviceProviders.HealthProfilesHoaLqService.GetByIdAsync(id) is not null;
+        }
     }
 }
