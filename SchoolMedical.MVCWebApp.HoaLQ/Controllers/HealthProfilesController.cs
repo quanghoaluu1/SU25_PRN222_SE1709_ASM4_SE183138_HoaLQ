@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SchoolMedical.Services.HoaLQ;
 
 namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
 {
+    [Authorize]
     public class HealthProfilesController : Controller
     {
         // private readonly SU25_PRN222_SE1709_G1_SchoolMedicalContext _context;
@@ -47,6 +49,7 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         }
 
         //GET: HealthProfile/Create
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> Create()
         {
             var studentsQueryable = (await _serviceProviders.StudentHoaLqService.GetAllAsync()).AsQueryable();
@@ -78,6 +81,7 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> Create(HealthProfilesHoaLq healthProfilesHoaLq)
         {
             try
@@ -108,6 +112,7 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         }
         //
         // // GET: HealthProfile/Edit/5
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
@@ -135,6 +140,7 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         // // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> Edit(int id, HealthProfilesHoaLq healthProfilesHoaLq)
         {
             if (id != healthProfilesHoaLq.HealthProfileHoaLqid)
@@ -173,6 +179,7 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         }
         
         // // GET: HealthProfile/Delete/5
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
@@ -192,6 +199,7 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         // // POST: HealthProfile/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var result = false;

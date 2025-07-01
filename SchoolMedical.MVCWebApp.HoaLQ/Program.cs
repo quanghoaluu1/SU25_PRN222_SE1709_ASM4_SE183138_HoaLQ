@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using SchoolMedical.Repositories.HoaLQ.Models;
 using SchoolMedical.Services.HoaLQ;
 
@@ -11,7 +12,16 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+        {
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+            options.SlidingExpiration = true;
+            options.LoginPath = "/Auth/Login";
+            options.AccessDeniedPath = "/Home/AccessDenied";
+        });
+       
         builder.Services.AddScoped<IServiceProviders, ServiceProviders>();
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -26,7 +36,7 @@ public class Program
         app.UseStaticFiles();
 
         app.UseRouting();
-
+        app.UseAuthentication(); 
         app.UseAuthorization();
 
         app.MapControllerRoute(
