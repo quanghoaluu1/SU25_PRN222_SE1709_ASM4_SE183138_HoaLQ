@@ -25,7 +25,8 @@ namespace SchoolMedical.Repositories.HoaLQ
         public async Task<PaginatedList<HealthProfilesHoaLq>> GetAllAsync(int pageNumber, int pageSize)
         {
             var query = _context.HealthProfilesHoaLqs
-                .Include(h => h.Student).AsQueryable();
+                .Include(h => h.Student)
+                .AsQueryable();
             var result = await PaginatedList<HealthProfilesHoaLq>.CreateAsync(query, pageNumber, pageSize);
             return result;
         }
@@ -39,7 +40,7 @@ namespace SchoolMedical.Repositories.HoaLQ
             return healthProfile ?? new HealthProfilesHoaLq();
         }
 
-        public async Task<PaginatedList<HealthProfilesHoaLq>> SearchAsync(string studentName, string bloodType, int? minWeight, int? maxWeight, int? minHeight, int? maxHealth, int pageNumber, int pageSize)
+        public async Task<PaginatedList<HealthProfilesHoaLq>> SearchAsync(string studentName, string bloodType,bool? sex, int? minWeight, int? maxWeight, int? minHeight, int? maxHealth, int pageNumber, int pageSize)
         {
             var query = _context.HealthProfilesHoaLqs
                 .Include(p => p.Student)
@@ -53,6 +54,11 @@ namespace SchoolMedical.Repositories.HoaLQ
             if (!string.IsNullOrWhiteSpace(bloodType))
             {
                 query = query.Where(p => p.BloodType.Contains(bloodType));
+            }
+
+            if (sex.HasValue)
+            {
+                query = query.Where(p => p.Sex.Equals(sex));
             }
 
             if (minWeight.HasValue)
@@ -102,35 +108,8 @@ namespace SchoolMedical.Repositories.HoaLQ
         {
             var entity = _context.HealthProfilesHoaLqs.Update(healthProfilesHoaLq);
             await _context.SaveChangesAsync();
-
-            // var result = await _context.HealthProfilesHoaLqs
-            //     .Where(h => h.HealthProfileHoaLqid == entity.Entity.HealthProfileHoaLqid)
-            //     .Select(h => new HealthProfilesHoaLq
-            //     {
-            //         HealthProfileHoaLqid = h.HealthProfileHoaLqid,
-            //         Weight = h.Weight,
-            //         Height = h.Height,
-            //         BloodPressure = h.BloodPressure,
-            //         Allergy = h.Allergy,
-            //         ChronicDisease = h.ChronicDisease,
-            //         MedicalHistory = h.MedicalHistory,
-            //         CurrentMedical = h.CurrentMedical,
-            //         BloodType = h.BloodType,
-            //         Sight = h.Sight,
-            //         Hearing = h.Hearing,
-            //         Sex = h.Sex,
-            //         DateOfBirth = h.DateOfBirth,
-            //         StudentId = h.StudentId,
-            //
-            //         Student = new StudentsHoaLq()
-            //         {
-            //             StudentsHoaLqid = h.Student.StudentsHoaLqid,
-            //             StudentFullName = h.Student.StudentFullName
-            //         }
-            //     })
-            //     .FirstOrDefaultAsync();
             var result = await _context.HealthProfilesHoaLqs
-                .Include(h => h.Student) // <-- Dòng quan trọng để lấy dữ liệu Student
+                .Include(h => h.Student) 
                 .FirstOrDefaultAsync(h => h.HealthProfileHoaLqid == healthProfilesHoaLq.HealthProfileHoaLqid);
             return result;
         }

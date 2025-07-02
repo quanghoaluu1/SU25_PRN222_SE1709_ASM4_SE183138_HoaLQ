@@ -35,14 +35,11 @@
                 <div class="navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        // Nếu người dùng ĐÃ đăng nhập
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-circle"></i> Xin chào, @User.Identity.Name
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
-                                <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form class="d-inline" asp-controller="Auth" asp-action="Logout" method="post">
                                         <button type="submit" class="dropdown-item text-danger">
@@ -55,7 +52,6 @@
                     }
                     else
                     {
-                        // Nếu người dùng CHƯA đăng nhập
                         <li class="nav-item">
                             <a class="btn btn-outline-primary" asp-controller="Account" asp-action="Login">
                                 <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
@@ -67,7 +63,7 @@
         </div>
     </nav>
 </header>
-<div class="container">
+<div class="container-fluid">
     <main role="main" class="pb-3">
         @RenderBody()
     </main>

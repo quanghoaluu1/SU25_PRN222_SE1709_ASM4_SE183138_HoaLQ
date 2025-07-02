@@ -10,37 +10,54 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Health Profiles</h1>
         <a asp-action="Create" class="btn btn-success shadow-sm">
-            <i class="bi bi-file-plus"></i> Create New
+            <i class="bi bi-clipboard2-plus"></i> Create New
         </a>
     </div>
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form asp-action="Index" method="get" class="mb-4">
-                <div class="row">
-                    <div class="col-md-3">
-                        <input type="text" name="studentName" class="form-control" placeholder="Student Name" value="@ViewData["StudentName"]">
-                    </div>
-                    <div class="col-md-2">
-                        <input type="text" name="bloodType" class="form-control" placeholder="Blood Type" value="@ViewData["BloodType"]">
-                    </div>
-                    <div class="col-md-2">
-                        <input type="number" name="minWeight" class="form-control" placeholder="Min Weight" value="@ViewData["MinWeight"]">
-                    </div>
-                    <div class="col-md-2">
-                        <input type="number" name="maxWeight" class="form-control" placeholder="Max Weight" value="@ViewData["MaxWeight"]">
-                    </div>
-                    <div class="col-md-2">
-                        <input type="number" name="minHeight" class="form-control" placeholder="Min Height" value="@ViewData["MinHeight"]">
-                    </div>
-                    <div class="col-md-2">
-                        <input type="number" name="maxHeight" class="form-control" placeholder="Max Height" value="@ViewData["MaxHeight"]">
-                    </div>
-                    <div class="col-md-1">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
+            <form asp-action="Index" method="get" class="d-flex gap-2 mb-4">
+    
+                <div style="width: 250px;">
+                    <input type="text" name="studentName" class="form-control" placeholder="Student Name" value="@ViewData["StudentName"]">
                 </div>
+
+                <div>
+                    <input type="text" name="bloodType" class="form-control w-auto" placeholder="Blood Type" value="@ViewData["BloodType"]" style="width: 130px;">
+                </div>
+    
+                <div style="width: 130px;">
+                    <select name="sex" class="form-select">
+                        <option value="">-- Sex --</option>
+                        <option value="true" selected="@(ViewData["Sex"] as bool? == true)">Male</option>
+                        <option value="false" selected="@(ViewData["Sex"] as bool? == false)">Female</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <input type="number" name="minWeight" class="form-control w-auto" placeholder="Min Weight" value="@ViewData["MinWeight"]" style="width: 130px;">
+                </div>
+    
+                <div>
+                    <input type="number" name="maxWeight" class="form-control w-auto" placeholder="Max Weight" value="@ViewData["MaxWeight"]" style="width: 130px;">
+                </div>
+    
+                <div>
+                    <input type="number" name="minHeight" class="form-control w-auto" placeholder="Min Height" value="@ViewData["MinHeight"]" style="width: 130px;">
+                </div>
+    
+                <div>
+                    <input type="number" name="maxHeight" class="form-control w-auto" placeholder="Max Height" value="@ViewData["MaxHeight"]" style="width: 130px;">
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </div>
+
             </form>
+
             <div class="table-responsive ">
                 <table class="table table-bordered table-hover" id="dataTable">
                     @* ... Phần thead và tbody của bảng giữ nguyên ... *@
@@ -53,7 +70,7 @@
                             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Weight) (kg)</th>
                             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Height) (cm)</th>
                             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().BloodPressure)</th>
-                            <th>Allergy</th>
+                            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Allergy)</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -63,7 +80,7 @@
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.Student.StudentFullName)</td>
                                 <td>
-                                    @if (item.Sex) { <span style="color: blue;">Nam</span> } else { <span style="color: red;">Nữ</span> }
+                                    @if (item.Sex) { <span style="color: blue;">Male</span> } else { <span style="color: red;">Female</span> }
                                 </td>
                                 <td>@item.DateOfBirth.Value.ToString("dd/MM/yyyy")</td>
                                 <td>@Html.DisplayFor(modelItem => item.BloodType)</td>
@@ -89,12 +106,11 @@
                 <div class="pagination-container">
                     <div class="d-flex justify-content-between align-items-center">
                         <span>
-                            Hiển thị <strong>@Model.Count()</strong> trong tổng số <strong>@Model.TotalItems</strong> hồ sơ.
+                            Display for <strong>@Model.Count()</strong> in total of <strong>@Model.TotalItems</strong> health profiles.
                         </span>
 
                         <nav aria-label="Page navigation">
                             <ul class="pagination shadow-sm mb-0">
-                                @* Nút "Trang trước" *@
                                 <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
                                     <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-studentName="@ViewData["StudentName"]" asp-route-bloodType="@ViewData["BloodType"]" asp-route-minWeight="@ViewData["MinWeight"]" asp-route-maxWeight="@ViewData["MaxWeight"]" asp-route-minHeight="@ViewData["MinHeight"]" asp-route-maxHeight="@ViewData["MaxHeight"]" aria-label="Previous">
                                         <span aria-hidden="true">‹</span>
@@ -102,7 +118,6 @@
                                 </li>
 
                                 @{
-                                    // Logic để hiển thị các nút số trang một cách thông minh
                                     int currentPage = Model.PageIndex;
                                     int totalPages = Model.TotalPages;
                                     int startPage = Math.Max(1, currentPage - 2);
@@ -134,7 +149,6 @@
                                     }
                                 }
                                 
-                                @* Nút "Trang sau" *@
                                 <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
                                     <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-studentName="@ViewData["StudentName"]" asp-route-bloodType="@ViewData["BloodType"]" asp-route-minWeight="@ViewData["MinWeight"]" asp-route-maxWeight="@ViewData["MaxWeight"]" asp-route-minHeight="@ViewData["MinHeight"]" asp-route-maxHeight="@ViewData["MaxHeight"]" aria-label="Next">
                                         <span aria-hidden="true">›</span>

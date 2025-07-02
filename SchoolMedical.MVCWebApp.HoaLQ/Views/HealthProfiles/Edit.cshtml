@@ -9,23 +9,25 @@
             <h4 class="m-0 font-weight-bold text-primary">Edit Health Profile</h4>
         </div>
         <div class="card-body">
-            <form asp-action="Create">
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="HealthProfileHoaLqid" />
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
-                
+
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="mb-3" >
+                        <div class="mb-3">
                             <label asp-for="StudentId" class="form-label font-weight-bold"></label>
                             <select asp-for="StudentId" class="form-select" asp-items="ViewBag.StudentList" disabled>
                                 <option value="">-- Select Student --</option>
                             </select>
+                            <input type="hidden" asp-for="StudentId"/>
                             <span asp-validation-for="StudentId" class="text-danger"></span>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6 mb-3">
                                 <label asp-for="DateOfBirth" class="form-label font-weight-bold"></label>
-                                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                                <input asp-for="DateOfBirth" type="date" class="form-control"/>
                                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
@@ -47,41 +49,41 @@
                             <div class="col-sm-4 mb-3">
                                 <label asp-for="Weight" class="form-label font-weight-bold"></label>
                                 <div class="input-group">
-                                    <input asp-for="Weight" class="form-control" placeholder="e.g., 50.5" />
+                                    <input asp-for="Weight" class="form-control" placeholder="e.g., 50.5"/>
                                     <span class="input-group-text">kg</span>
                                 </div>
                                 <span asp-validation-for="Weight" class="text-danger"></span>
                             </div>
-                             <div class="col-sm-4 mb-3">
+                            <div class="col-sm-4 mb-3">
                                 <label asp-for="Height" class="form-label font-weight-bold"></label>
-                                 <div class="input-group">
-                                    <input asp-for="Height" class="form-control" placeholder="e.g., 160" />
+                                <div class="input-group">
+                                    <input asp-for="Height" class="form-control" placeholder="e.g., 160"/>
                                     <span class="input-group-text">cm</span>
-                                 </div>
+                                </div>
                                 <span asp-validation-for="Height" class="text-danger"></span>
                             </div>
-                             <div class="col-sm-4 mb-3">
+                            <div class="col-sm-4 mb-3">
                                 <label asp-for="BloodType" class="form-label font-weight-bold"></label>
-                                <input asp-for="BloodType" class="form-control" placeholder="e.g., AB+" />
+                                <input asp-for="BloodType" class="form-control" placeholder="e.g., AB+"/>
                                 <span asp-validation-for="BloodType" class="text-danger"></span>
                             </div>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label asp-for="BloodPressure" class="form-label font-weight-bold"></label>
                             <input asp-for="BloodPressure" class="form-control" placeholder="e.g., 120/80 mmHg"/>
                             <span asp-validation-for="BloodPressure" class="text-danger"></span>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-sm-6 mb-3">
                                 <label asp-for="Sight" class="form-label font-weight-bold"></label>
-                                <input asp-for="Sight" class="form-control" placeholder="e.g., 10/10" />
+                                <input asp-for="Sight" class="form-control" placeholder="e.g., 10/10"/>
                                 <span asp-validation-for="Sight" class="text-danger"></span>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <label asp-for="Hearing" class="form-label font-weight-bold"></label>
-                                <input asp-for="Hearing" class="form-control" placeholder="e.g., Normal" />
+                                <input asp-for="Hearing" class="form-control" placeholder="e.g., Normal"/>
                                 <span asp-validation-for="Hearing" class="text-danger"></span>
                             </div>
                         </div>
@@ -111,7 +113,7 @@
                     </div>
                 </div>
 
-                <hr class="my-4" />
+                <hr class="my-4"/>
 
                 <div class="d-flex justify-content-end">
                     <a asp-action="Index" class="btn btn-outline-secondary me-2">

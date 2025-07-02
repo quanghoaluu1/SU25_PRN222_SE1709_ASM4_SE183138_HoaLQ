@@ -23,7 +23,7 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         }
 
         // GET: HealthProfile
-        public async Task<IActionResult> Index(string studentName, string bloodType, int? minWeight, int? maxWeight, int? minHeight, int? maxHealth, int? pageNumber)
+        public async Task<IActionResult> Index(string studentName, string bloodType, bool? sex, int? minWeight, int? maxWeight, int? minHeight, int? maxHealth, int? pageNumber)
         {
             ViewData["StudentName"] = studentName;
             ViewData["BloodType"] = bloodType;
@@ -31,8 +31,9 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
             ViewData["MaxWeight"] = maxWeight;
             ViewData["MinHeight"] = minHeight;
             ViewData["MaxHeight"] = maxHealth;
+            ViewData["Sex"] = sex;
             var pageSize = 10;
-            var paginatedResult = await _serviceProviders.HealthProfilesHoaLqService.SearchAsync(studentName, bloodType, minWeight, maxWeight, minHeight, maxHealth, pageNumber ?? 1, pageSize);
+            var paginatedResult = await _serviceProviders.HealthProfilesHoaLqService.SearchAsync(studentName, bloodType,sex, minWeight, maxWeight, minHeight, maxHealth, pageNumber ?? 1, pageSize);
             return View(paginatedResult);
         }
 
@@ -149,28 +150,9 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         [Authorize(Roles = "1")]
         public async Task<IActionResult> Edit(int id, HealthProfilesHoaLq healthProfilesHoaLq)
         {
-            if (id != healthProfilesHoaLq.HealthProfileHoaLqid)
-            {
-                return NotFound();
-            }
-        
             if (ModelState.IsValid)
             {
-                try
-                {
-                    await _serviceProviders.HealthProfilesHoaLqService.UpdateAsync(healthProfilesHoaLq);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!HealthProfilesHoaLqExists(healthProfilesHoaLq.HealthProfileHoaLqid))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _serviceProviders.HealthProfilesHoaLqService.UpdateAsync(healthProfilesHoaLq);
                 return RedirectToAction(nameof(Index));
             }
             var studentsQueryable = (await _serviceProviders.StudentHoaLqService.GetAllAsync()).AsQueryable();

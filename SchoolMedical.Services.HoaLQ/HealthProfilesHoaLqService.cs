@@ -9,7 +9,7 @@ public interface IHealthProfilesHoaLqService
     Task<PaginatedList<HealthProfilesHoaLq>> GetAllAsync(int pageNumber, int pageSize);
     Task<HealthProfilesHoaLq> GetByIdAsync(int id);
 
-    Task<PaginatedList<HealthProfilesHoaLq>> SearchAsync(string studentName, string bloodType,
+    Task<PaginatedList<HealthProfilesHoaLq>> SearchAsync(string studentName, string bloodType, bool? sex,
         int? minWeight, int? maxWeight, int? minHeight, int? maxHealth, int pageNumber, int pageSize);   Task<List<HealthProfilesHoaLq>> FilterBySexAsync(bool? sex);
     Task<HealthProfilesHoaLq> CreateAsync(HealthProfilesHoaLq healthProfilesHoaLq);
     Task<HealthProfilesHoaLq> UpdateAsync(HealthProfilesHoaLq healthProfilesHoaLq);
@@ -35,9 +35,9 @@ public class HealthProfilesHoaLqService: IHealthProfilesHoaLqService
     
     
     
-    public async Task<PaginatedList<HealthProfilesHoaLq>> SearchAsync(string studentName, string bloodType, int? minWeight, int? maxWeight, int? minHeight, int? maxHealth, int pageNumber, int pageSize)
+    public async Task<PaginatedList<HealthProfilesHoaLq>> SearchAsync(string studentName, string bloodType, bool? sex, int? minWeight, int? maxWeight, int? minHeight, int? maxHealth, int pageNumber, int pageSize)
     {
-        return await _unitOfWork.HealthProfilesHoaLqRepository.SearchAsync(studentName, bloodType, minWeight, maxWeight, minHeight, maxHealth, pageNumber, pageSize);
+        return await _unitOfWork.HealthProfilesHoaLqRepository.SearchAsync(studentName, bloodType,sex, minWeight, maxWeight, minHeight, maxHealth, pageNumber, pageSize);
     }
 
     public async Task<List<HealthProfilesHoaLq>> FilterBySexAsync(bool? sex)
