@@ -16,6 +16,31 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
+            <form asp-action="Index" method="get" class="mb-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="text" name="studentName" class="form-control" placeholder="Student Name" value="@ViewData["StudentName"]">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" name="bloodType" class="form-control" placeholder="Blood Type" value="@ViewData["BloodType"]">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" name="minWeight" class="form-control" placeholder="Min Weight" value="@ViewData["MinWeight"]">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" name="maxWeight" class="form-control" placeholder="Max Weight" value="@ViewData["MaxWeight"]">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" name="minHeight" class="form-control" placeholder="Min Height" value="@ViewData["MinHeight"]">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" name="maxHeight" class="form-control" placeholder="Max Height" value="@ViewData["MaxHeight"]">
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
             <div class="table-responsive ">
                 <table class="table table-bordered table-hover" id="dataTable">
                     @* ... Phần thead và tbody của bảng giữ nguyên ... *@
@@ -71,7 +96,7 @@
                             <ul class="pagination shadow-sm mb-0">
                                 @* Nút "Trang trước" *@
                                 <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
-                                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" aria-label="Previous">
+                                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-studentName="@ViewData["StudentName"]" asp-route-bloodType="@ViewData["BloodType"]" asp-route-minWeight="@ViewData["MinWeight"]" asp-route-maxWeight="@ViewData["MaxWeight"]" asp-route-minHeight="@ViewData["MinHeight"]" asp-route-maxHeight="@ViewData["MaxHeight"]" aria-label="Previous">
                                         <span aria-hidden="true">‹</span>
                                     </a>
                                 </li>
@@ -85,7 +110,7 @@
 
                                     if (startPage > 1)
                                     {
-                                        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-pageNumber="1">1</a></li>
+                                        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-pageNumber="1" asp-route-studentName="@ViewData["StudentName"]" asp-route-bloodType="@ViewData["BloodType"]" asp-route-minWeight="@ViewData["MinWeight"]" asp-route-maxWeight="@ViewData["MaxWeight"]" asp-route-minHeight="@ViewData["MinHeight"]" asp-route-maxHeight="@ViewData["MaxHeight"]">1</a></li>
                                         if (startPage > 2)
                                         {
                                             <li class="page-item disabled"><span class="page-link">...</span></li>
@@ -95,7 +120,7 @@
                                     for (int i = startPage; i <= endPage; i++)
                                     {
                                         <li class="page-item @(i == currentPage ? "active" : "")">
-                                            <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                                            <a class="page-link" asp-action="Index" asp-route-pageNumber="@i" asp-route-studentName="@ViewData["StudentName"]" asp-route-bloodType="@ViewData["BloodType"]" asp-route-minWeight="@ViewData["MinWeight"]" asp-route-maxWeight="@ViewData["MaxWeight"]" asp-route-minHeight="@ViewData["MinHeight"]" asp-route-maxHeight="@ViewData["MaxHeight"]">@i</a>
                                         </li>
                                     }
 
@@ -105,13 +130,13 @@
                                         {
                                             <li class="page-item disabled"><span class="page-link">...</span></li>
                                         }
-                                        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages">@totalPages</a></li>
+                                        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages" asp-route-studentName="@ViewData["StudentName"]" asp-route-bloodType="@ViewData["BloodType"]" asp-route-minWeight="@ViewData["MinWeight"]" asp-route-maxWeight="@ViewData["MaxWeight"]" asp-route-minHeight="@ViewData["MinHeight"]" asp-route-maxHeight="@ViewData["MaxHeight"]">@totalPages</a></li>
                                     }
                                 }
                                 
                                 @* Nút "Trang sau" *@
                                 <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
-                                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" aria-label="Next">
+                                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-studentName="@ViewData["StudentName"]" asp-route-bloodType="@ViewData["BloodType"]" asp-route-minWeight="@ViewData["MinWeight"]" asp-route-maxWeight="@ViewData["MaxWeight"]" asp-route-minHeight="@ViewData["MinHeight"]" asp-route-maxHeight="@ViewData["MaxHeight"]" aria-label="Next">
                                         <span aria-hidden="true">›</span>
                                     </a>
                                 </li>

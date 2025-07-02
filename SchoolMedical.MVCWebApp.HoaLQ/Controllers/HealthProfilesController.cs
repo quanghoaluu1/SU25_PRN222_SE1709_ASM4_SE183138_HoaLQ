@@ -23,10 +23,16 @@ namespace SchoolMedical.MVCWebApp.HoaLQ.Controllers
         }
 
         // GET: HealthProfile
-        public async Task<IActionResult> Index(int? pageNumber)
+        public async Task<IActionResult> Index(string studentName, string bloodType, int? minWeight, int? maxWeight, int? minHeight, int? maxHealth, int? pageNumber)
         {
+            ViewData["StudentName"] = studentName;
+            ViewData["BloodType"] = bloodType;
+            ViewData["MinWeight"] = minWeight;
+            ViewData["MaxWeight"] = maxWeight;
+            ViewData["MinHeight"] = minHeight;
+            ViewData["MaxHeight"] = maxHealth;
             var pageSize = 10;
-            var paginatedResult = await _serviceProviders.HealthProfilesHoaLqService.GetAllAsync(pageNumber ?? 1, pageSize);
+            var paginatedResult = await _serviceProviders.HealthProfilesHoaLqService.SearchAsync(studentName, bloodType, minWeight, maxWeight, minHeight, maxHealth, pageNumber ?? 1, pageSize);
             return View(paginatedResult);
         }
 
